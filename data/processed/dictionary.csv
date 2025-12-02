@@ -1,0 +1,6 @@
+variable_name,description
+water_source_type,"Main type of water source (e.g., piped supply, borehole, hand pump, surface water)"
+water_functional,Whether the water source is functioning at the time of visit (yes/no)
+hand_hygiene_points,Number of functional hand hygiene stations available in the facility
+waste_management_system,"Whether the facility has a functional system for segregating, treating, and disposing of health care waste"
+infection_prevention_score,Composite score measuring avaialability of IPC materials and procedures.

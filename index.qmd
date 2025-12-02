@@ -1,3 +1,6 @@
+```         
+```
+
 ---
 title: "My project"
 format: html
@@ -13,25 +16,10 @@ My goal is to analyse this to assess the availability, functionality, and qualit
 
 ```{r}
 library(tidyverse)
-```
-
-```{r}
-install.packages("here")  # once
-library(here)             # every session
-```
-
-```{r}
-read_csv(here::here("data/raw/hcf-assessment.csv"))
-
-glimpse()
-```
-
-```{r}
-library(tidyverse)
 library(here)
 
 ```
 
 ```{r}
-read_csv(here::here("data/raw/hcf-assessment.csv"))
+assessment_data <- read_csv(here::here("data/raw/hcfs_assessment.csv"), locale = locale(encoding = "ISO-8859-1"))
 ```
