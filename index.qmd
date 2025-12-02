@@ -1,0 +1,37 @@
+---
+title: "My project"
+format: html
+editor: visual
+---
+
+## Project description
+
+The data covers the status of water, sanitation, and hygiene services in 39 health care facilities in four districts of the Upper East Region in Ghana.\
+My goal is to analyse this to assess the availability, functionality, and quality of water, sanitation, and hygiene (WASH) services across the 39 health care facilities, identify facility-level and district-level gaps, and develop data-driven recommendations for improving WASH service delivery and compliance with national and WHO standards.
+
+## Import
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+install.packages("here")  # once
+library(here)             # every session
+```
+
+```{r}
+read_csv(here::here("data/raw/hcf-assessment.csv"))
+
+glimpse()
+```
+
+```{r}
+library(tidyverse)
+library(here)
+
+```
+
+```{r}
+read_csv(here::here("data/raw/hcf-assessment.csv"))
+```
