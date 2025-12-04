@@ -21,5 +21,15 @@ library(here)
 ```
 
 ```{r}
-assessment_data <- read_csv(here::here("data/raw/hcfs_assessment.csv"), locale = locale(encoding = "ISO-8859-1"))
+raw_data <- read_csv(here::here("data/raw/hcfs_assessment.csv"), locale = locale(encoding = "ISO-8859-1"))
+
+```
+
+```{r}
+processed_data <- raw_data |> 
+  rename(
+  `toilet_light_vent` = `Sufficient lighting and ventilation in toilets`,
+    `cleaning_recs` = `No sufficient lighting and ventilation in toilets`, 'hcf_name' = 'Health Care Facility name', 'hcf_loc' = 'Health Care Facility location', 'hcf_level' = 'Level of health care facility', 'hcf_ownwership' = 'Facility ownership', 'hcf_ownership_det' = 'Facility ownership_Other', 'refugee_centre' = 'Refugee centre near facility', 'doctors_total' = 'Total number of doctors', 'doctors_female' = 'Number of female doctors', 'doctors_male' = 'Number of male doctors', 'nurses_total' = 'Total number of nurses', 'nurses_female' = 'Number of female nurse', 'nurses_male' = 'Number of male nurses', 'cleaners_total' = 'Total number of cleaners', 'cleaners_female' = 'Number of female cleaners', 'cleaners_male' = 'Number of male cleaners', 'staff_other' = 'Number of other staff', 'staff_other_female' = 'Number of female other staff', 'staff_other_male' = 'Number of male other staff', 'staff_comments' = 'Comments on number of staff', 'number_outpatients' = 'Number of outpatients', 'outpatient_unit' = 'OPD units', 'number_inpatients' = 'Number of inpatients', 'inpatient_units' = 'inpatients unit', 'patients_comments' = 'Number of patients comments', 'services' = 'Services offered', 'services_other' = 'Other services', 'water_supply_main' = 'Main water supply', 'water_supply_main_loc' = 'Main water supply location', 'water_supply_main_avl' = 'Water availability from main supply at time of survey', 'water_supply_comments' = 'Additional comments on water supply', 'toilet_type_patients' = 'Common types of toilets for patients', 'toilet_type_other' = 'Other toilet types', 'toilet_type_comments' = 'Comments on toilet', 'toilet_usable' = 'At least one toilet usable at survey', 'hyg_station_funct' = 'Functioning hygiene stations at least 5 m from toilet', 'toilet_sep_staff' = 'Separate toilets for staff', 'toilet_AYFS' = 'Toilet in the AYFS', 'toilet_sep_male_female')
+  
+  
 ```
