@@ -10,7 +10,7 @@ editor: visual
 ## Project description
 
 The data covers the status of water, sanitation, and hygiene services in 39 health care facilities in four districts of the Upper East Region in Ghana.\
-My goal is to analyse this to assess the availability, functionality, and quality of water, sanitation, and hygiene (WASH) services across the 39 health care facilities, identify facility-level and district-level gaps, and develop data-driven recommendations for improving WASH service delivery and compliance with national and WHO standards.
+My goal is to analyse this to assess the availability, functionality, and quality of water, sanitation, and hygiene (WASH) services across the 39 health care facilities, identify facility-level and district-level gaps to inform efforts for improving WASH service delivery and compliance with national and WHO standards.
 
 ## Import
 
@@ -23,13 +23,150 @@ library(here)
 ```{r}
 raw_data <- read_csv(here::here("data/raw/hcfs_assessment.csv"), locale = locale(encoding = "ISO-8859-1"))
 
+processed_data <- raw_data |>
+  select(`Health Care Facility name`, `Level of health care facility`, `Facility ownership`, `Number of outpatients`, `OPD units`, `Number of inpatients`, `inpatients unit`, `Main water supply`, `Water availability from main supply at time of survey`, `Common types of toilets for patients`, `At least one toilet usable at survey`, `Functioning hygiene stations at least 5 m from toilet`, `Separate toilets for staff`, `Urinals at the facility`, `What is the disposal mechanism for menstrual hygiene waste at the healthcare facility`, `Who is responsible for disposing of menstrual hygiene waste?`, `Is there a water point inside?`, `Is a trained person responsible for the management of health care waste in the health care facility`, `Is a protocol or Standard Operating Procedure for safe management of health care waste clearly visible and legible`, `Is waste correctly segregated into at least three labelled bins in the CONSULTATION area`, `Is all infectious waste stored in a protected area before treatment for no longer than the default and safe time`, `How does this facility usually treat or dispose of infectious waste`, `How does this facility usually treat ordispose of infectious waste_comment`, `Is the infectious waste treatment within the facility currently functional`, `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste`, `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste _other`, `Are cleaning protocols available`, `Are adequate cleaning staff available`, `Have all staff responsible for cleaning received training`, `Is there a record of cleaning visible and signed by the cleaners each day`) |> 
+
+  rename(hcf_name = `Health Care Facility name`, hcf_level = `Level of health care facility`, hcf_ownership = `Facility ownership`, num_outpatients = `Number of outpatients`, OPD_units = `OPD units`, num_inpatients = `Number of inpatients`, inpatients_units = `inpatients unit`, water_supply_main = `Main water supply`, water_supply_main_avl = `Water availability from main supply at time of survey`, toilet_type_patients = `Common types of toilets for patients`, toilet_usable = `At least one toilet usable at survey`, hyg_station_funct = `Functioning hygiene stations at least 5 m from toilet`, toilet_sep_staff = `Separate toilets for staff`, urinals = `Urinals at the facility`, mhm_disposal = `What is the disposal mechanism for menstrual hygiene waste at the healthcare facility`, mhm_waste_responsible = `Who is responsible for disposing of menstrual hygiene waste?`, toilet_waterpoint_inside = `Is there a water point inside?`, hcf_waste_mgt_responsible = `Is a trained person responsible for the management of health care waste in the health care facility`, hcf_waste_SOP = `Is a protocol or Standard Operating Procedure for safe management of health care waste clearly visible and legible`, hcf_waste_segregated = `Is waste correctly segregated into at least three labelled bins in the CONSULTATION area`, infectious_waste_storage = `Is all infectious waste stored in a protected area before treatment for no longer than the default and safe time`, infectious_waste_treatment = `How does this facility usually treat or dispose of infectious waste`, infectious_waste_treatment_comment = `How does this facility usually treat ordispose of infectious waste_comment`, infectious_waste_treatment_funct = `Is the infectious waste treatment within the facility currently functional`, hcf_waste_treatment_general = `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste`, hcf_waste_treatment_general_other = `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste _other`, cleaning_protocols_avl = `Are cleaning protocols available`, cleaning_staff_avl = `Are adequate cleaning staff available`, cleaning_staff_trained = `Have all staff responsible for cleaning received training`, cleaning_recs = `Is there a record of cleaning visible and signed by the cleaners each day`) |> 
+  
+  filter(!(is.na(water_supply_main_avl) & is.na(hyg_station_funct) & is.na(toilet_usable) & is.na(urinals) & is.na(mhm_disposal)))
 ```
 
 ```{r}
 processed_data <- raw_data |> 
+```
+
+```{r}
+
+```
+
+```{r}
+processed_data_trial <- raw_data |> 
   rename(
-  `toilet_light_vent` = `Sufficient lighting and ventilation in toilets`,
-    `cleaning_recs` = `No sufficient lighting and ventilation in toilets`, 'hcf_name' = 'Health Care Facility name', 'hcf_loc' = 'Health Care Facility location', 'hcf_level' = 'Level of health care facility', 'hcf_ownwership' = 'Facility ownership', 'hcf_ownership_det' = 'Facility ownership_Other', 'refugee_centre' = 'Refugee centre near facility', 'doctors_total' = 'Total number of doctors', 'doctors_female' = 'Number of female doctors', 'doctors_male' = 'Number of male doctors', 'nurses_total' = 'Total number of nurses', 'nurses_female' = 'Number of female nurse', 'nurses_male' = 'Number of male nurses', 'cleaners_total' = 'Total number of cleaners', 'cleaners_female' = 'Number of female cleaners', 'cleaners_male' = 'Number of male cleaners', 'staff_other' = 'Number of other staff', 'staff_other_female' = 'Number of female other staff', 'staff_other_male' = 'Number of male other staff', 'staff_comments' = 'Comments on number of staff', 'number_outpatients' = 'Number of outpatients', 'outpatient_unit' = 'OPD units', 'number_inpatients' = 'Number of inpatients', 'inpatient_units' = 'inpatients unit', 'patients_comments' = 'Number of patients comments', 'services' = 'Services offered', 'services_other' = 'Other services', 'water_supply_main' = 'Main water supply', 'water_supply_main_loc' = 'Main water supply location', 'water_supply_main_avl' = 'Water availability from main supply at time of survey', 'water_supply_comments' = 'Additional comments on water supply', 'toilet_type_patients' = 'Common types of toilets for patients', 'toilet_type_other' = 'Other toilet types', 'toilet_type_comments' = 'Comments on toilet', 'toilet_usable' = 'At least one toilet usable at survey', 'hyg_station_funct' = 'Functioning hygiene stations at least 5 m from toilet', 'toilet_sep_staff' = 'Separate toilets for staff', 'toilet_AYFS' = 'Toilet in the AYFS', 'toilet_sep_male_female' = 'Separate toilet for boys and girls at the facility', 'urinals' = 'Urinals at the facility', 'num_mixed_toilets' = 'number of mixed toilets at facility', 'num_toilet_funct' = 'Number of functional toilets', 'num_toilet_mixed_funct_mhm' = 'number of mixed functional toilets with MHM facilities', 'num-toilet_mixed_funct_PWD' = 'number of mixed functional toilets accessible to PWDs', 'PWD_access_comments' = 'Comments on PWD accesibility', 'toilet_non_funct_issues' = 'What are the issues with non-functional toilets? (1)')
-  
+  'toilet_light_vent' = 'Sufficient lighting and ventilation in toilets', 'cleaning_recs' = 'No sufficient lighting and ventilation in toilets', 'hcf_name' = 'Health Care Facility name', 'hcf_loc' = 'Health Care Facility location', 'hcf_level' = 'Level of health care facility', 'hcf_ownership' = 'Facility ownership', 'hcf_ownership_det' = 'Facility ownership_Other', 'refugee_centre' = 'Refugee centre near facility', 'doctors_total' = 'Total number of doctors', 'doctors_female' = 'Number of female doctors', 'doctors_male' = 'Number of male doctors', 'nurses_total' = 'Total number of nurses', 'nurses_female' = 'Number of female nurse', 'nurses_male' = 'Number of male nurses', 'cleaners_total' = 'Total number of cleaners', 'cleaners_female' = 'Number of female cleaners', 'cleaners_male' = 'Number of male cleaners', 'staff_other' = 'Number of other staff', 'staff_other_female' = 'Number of female other staff', 'staff_other_male' = 'Number of male other staff', 'staff_comments' = 'Comments on number of staff', 'number_outpatients' = 'Number of outpatients', 'outpatient_unit' = 'OPD units', 'number_inpatients' = 'Number of inpatients', 'inpatient_units' = 'inpatients unit', 'patients_comments' = 'Number of patients comments', 'services' = 'Services offered', 'services_other' = 'Other services', 'water_supply_main' = 'Main water supply', 'water_supply_main_loc' = 'Main water supply location', 'water_supply_main_avl' = 'Water availability from main supply at time of survey', 'water_supply_comments' = 'Additional comments on water supply', 'toilet_type_patients' = 'Common types of toilets for patients', 'toilet_type_other' = 'Other toilet types', 'toilet_type_comments' = 'Comments on toilet', 'toilet_usable' = 'At least one toilet usable at survey', 'hyg_station_funct' = 'Functioning hygiene stations at least 5 m from toilet', 'toilet_sep_staff' = 'Separate toilets for staff', 'toilet_AYFS' = 'Toilet in the AYFS', 'toilet_sep_male_female' = 'Separate toilet for boys and girls at the facility', 'urinals' = 'Urinals at the facility', 'toilets_mixed_num' = 'number of mixed toilets at facility', 'toilet_funct_num' = 'Number of functional toilets', 'toilet_mixed_funct_mhm_num' = 'number of mixed functional toilets with MHM facilities', 'toilet_mixed_funct_PWD_num' = 'number of mixed functional toilets accessible to PWDs', 'toilet_PWD_access_comments' = 'Comments on PWD accesibility', 'toilet_non-funct_issues' = 'Issues with non-functional toilets...49', 'toilet_non_funct_issues_other' = 'Issues with non-functional toilets other',
+    'number_toilet_cubicles_female' = 'Number of toilet cubicles for females',
+    'number_functional_toilet_cubicles_female' = 'Number of functional toilet cubicles for females', 'number_mixed_toilet_cubicles_staff' = 'Number of mixed toilet cubicles for staff', 'toilet_funct_cub_mixed_staff' = 'number of functional mixed toilet cubicles for staff',
+    'toilet_funct_mixed_PWD_num' = 'number of functional mixed toilet cubicles with PWD accesibility',
+    'toilet_funct_mixed_PWD_num_2' = 'Comments on PWD accesibility of funcitonal mixed toilet cubicles',
+    'toilets_funct_MHM_num' = 'Number of functional toilets with MHM facilities',
+    'toilet_issues_non_funct' = 'Issues with non-functional toilets...72',
+    'toilet_issues_non_funct_spec' = 'Specific issues with non-functional toilets...73',
+    'toilet_num_cub_female_staff' = 'Number of toilet cubicles for female staff',
+    'toilet_num_funct' = 'Number functional',
+   'toilet_funct_MHM_num' = 'Of these functional toilets, how many have menstrual hygiene management facilities',
+   'toilet_access_funct_PWD' = 'Of these functional toilets how many are accessible to people with reduced mobility or other impairments such as difficulty seeing...77', 'toilet_access_funct_PWD_comments' = 'Of these functional toilets how many are accessible to people with reduced mobility or other impairments such as difficulty seeing Comments', 'toilet_non_funct_issues' = 'What are the issues with the non-functional toilets...79', 'toilet_non_funct_issues_other_2' = 'What are the other issues with the non-functional toilets...80', 'urinal_male_staff' = 'Are there urinals for male staff', 'toilet_cub_male_staff_num' = 'How many toilet cubicles are there for male staff', 'toilet_cub_male_staff_funct' = 'Of these toilets how many are functional', 'toilet_path_width_PWD' = 'Is the path to the toilet wide enough for all disabled users', 'toilet_path_lvl_firm' = 'Is the path to the toilet level and firm', 'toilet_path_clear' = 'Is the path to the toilet clear of tree branches and bushes', 'toilet_path_clear_obs' = 'Is the path to the toilet clear of any obstacles that make it difficult to pass or easy to trip up', 'toilet_path_no_slip' = 'Is the path to the toilet built to ensure it is not slippery', 'toilet_path_slope_PWD' = 'Are disabled users able to get up all slopes on the path to the toilet', 'MHM_collection_freq_comments2' = 'Comments 2 on frequency of menstrual waste collection', 'resp_MHM_waste_disposal' = 'Who is responsible for disposing of menstrual hygiene waste?', 'toilet_path_wide_PWDs' = 'Is the path to the toilet wide enough for all disabled users', 'mhm_disposal' = 'What is the disposal mechanism for menstrual hygiene waste at the healthcare facility', 'waste_manager_trained' = 'Is a trained person responsible for the management of health care waste in the health care facility', 'waste_segregation_consultation' = 'Is waste correctly segregated into at least three labelled bins in the CONSULTATION area', 'hazardous_waste_storage' = 'Are hazardous and non-hazardous waste stored separately before being treated or disposed of or moved off site', 'infectious_waste_safely_store' = 'Is all infectious waste stored in a protected area before treatment for no longer than the default and safe time')
+```
+
+```{r}
+processed_data <- processed_data |> 
+  mutate(
+    inpatients_units = if_else(
+      is.na(num_inpatients) & inpatients_units == "per day", NA, inpatients_units
+      ),
+    
+    water_supply_main_avl = if_else(
+      is.na(water_supply_main_avl), "No water source", water_supply_main_avl
+    ),
+    
+    toilet_usable = if_else(
+      toilet_type_patients == "No toilet/latrine" & toilet_usable == "No", NA, toilet_usable
+    ),
+    
+    urinals = if_else(
+      is.na(urinals), "No", urinals
+    ),
+    
+    toilet_waterpoint_inside = if_else(
+      toilet_type_patients == "No toilet/latrine" & toilet_waterpoint_inside == "Yes", "No", toilet_waterpoint_inside
+    ),
+    
+    hcf_waste_segregated = if_else(
+      is.na(hcf_waste_segregated), "No, bins are not present", hcf_waste_segregated
+    ),
+    
+    daily_outpatients = if_else(
+      OPD_units == "per week",
+      round(num_outpatients / 7, 0),
+      num_outpatients
+    ),
+    
+    daily_inpatients = if_else(
+      inpatients_units == "per week",
+      round(num_outpatients / 7, 0),
+      num_inpatients
+    )
+  )
+
+write_csv(processed_data,
+          here::here("data/processed/seyrama-project-data_clean.csv"))
+```
+
+```{r}
+processed_data |> 
+  count(hcf_level)
+
+processed_data |> 
+  count(hcf_ownership)
+
+processed_data |> 
+  count(water_supply_main_avl)
+
+processed_data |> 
+  count(toilet_usable)
+
+processed_data |> 
+  count(hyg_station_funct)
+
+processed_data |> 
+  count(urinals)
+    
+```
+
+```{r}
+processed_data |>
+  count(hcf_level)
+
+```
+
+```{r}
+health_centre_WASH_available <- processed_data |>
+  filter(hcf_level == "Health Centre",
+         water_supply_main_avl == "Yes",
+         toilet_usable == "Yes",
+         hyg_station_funct == "Yes")
+
+CHPS_centre_WASH_available <- processed_data |>
+  filter(hcf_level == "CHPS Centre",
+         water_supply_main_avl == "Yes",
+         toilet_usable == "Yes",
+         hyg_station_funct == "Yes")
+
+District_hospital_WASH_available <- processed_data |>
+  filter(hcf_level == "District hospital",
+         water_supply_main_avl == "Yes",
+         toilet_usable == "Yes",
+         hyg_station_funct == "Yes")
+```
+
+```{r}
+processed_data_new <- processed_data |> 
+ select(hcf_name, hcf_level, hcf_ownership, 
+        water_supply_main, water_supply_main_avl,
+        toilet_type_patients, toilet_usable, toilet_sep_staff,
+        hyg_station_funct, urinals, mhm_disposal, waste_manager_trained, hazardous_waste_storage, infectious_waste_safely_store)
+
+processed_data_new <- processed_data_new |> 
+  mutate(basic_wash = if_else(water_supply_main_avl == "Yes" &
+                                toilet_usable == "Yes" &
+                                hyg_station_funct == "Yes",
+                              "Yes","No"))
+
+processed_data_new <- processed_data_new |> 
+  mutate(water_supply_main_avl = replace_na(water_supply_main_avl, "No"))
+
+processed_data_new <- processed_data_new |> 
+  filter(!is.na(hcf_level)) 
+
+basic_wash_urinals <- processed_data_new |> 
+  filter(!is.na(urinals))
   
 ```
