@@ -1,4 +1,5 @@
 ```         
+ 
 ```
 
 ---
@@ -26,9 +27,9 @@ raw_data <- read_csv(here::here("data/raw/hcfs_assessment.csv"), locale = locale
 processed_data <- raw_data |>
   select(`Health Care Facility name`, `Level of health care facility`, `Facility ownership`, `Number of outpatients`, `OPD units`, `Number of inpatients`, `inpatients unit`, `Main water supply`, `Water availability from main supply at time of survey`, `Common types of toilets for patients`, `At least one toilet usable at survey`, `Functioning hygiene stations at least 5 m from toilet`, `Separate toilets for staff`, `Urinals at the facility`, `What is the disposal mechanism for menstrual hygiene waste at the healthcare facility`, `Who is responsible for disposing of menstrual hygiene waste?`, `Is there a water point inside?`, `Is a trained person responsible for the management of health care waste in the health care facility`, `Is a protocol or Standard Operating Procedure for safe management of health care waste clearly visible and legible`, `Is waste correctly segregated into at least three labelled bins in the CONSULTATION area`, `Is all infectious waste stored in a protected area before treatment for no longer than the default and safe time`, `How does this facility usually treat or dispose of infectious waste`, `How does this facility usually treat ordispose of infectious waste_comment`, `Is the infectious waste treatment within the facility currently functional`, `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste`, `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste _other`, `Are cleaning protocols available`, `Are adequate cleaning staff available`, `Have all staff responsible for cleaning received training`, `Is there a record of cleaning visible and signed by the cleaners each day`) |> 
 
-  rename(hcf_name = `Health Care Facility name`, hcf_level = `Level of health care facility`, hcf_ownership = `Facility ownership`, outpatients = `Number of outpatients`, OPD_units = `OPD units`, inpatients = `Number of inpatients`, inpatients_units = `inpatients unit`, WS_main = `Main water supply`, WS_main_avl = `Water availability from main supply at time of survey`, toilet_type_patients = `Common types of toilets for patients`, toilet_usable = `At least one toilet usable at survey`, hyg_station_funct = `Functioning hygiene stations at least 5 m from toilet`, toilet_sep_staff = `Separate toilets for staff`, urinals = `Urinals at the facility`, mhm_disposal = `What is the disposal mechanism for menstrual hygiene waste at the healthcare facility`, mhm_waste_responsible = `Who is responsible for disposing of menstrual hygiene waste?`, toilet_waterpoint_inside = `Is there a water point inside?`, hcf_waste_mgt_responsible = `Is a trained person responsible for the management of health care waste in the health care facility`, hcf_waste_SOP = `Is a protocol or Standard Operating Procedure for safe management of health care waste clearly visible and legible`, hcf_waste_segregated = `Is waste correctly segregated into at least three labelled bins in the CONSULTATION area`, infectious_waste_storage = `Is all infectious waste stored in a protected area before treatment for no longer than the default and safe time`, infectious_waste_treatment = `How does this facility usually treat or dispose of infectious waste`, infectious_waste_treatment_comment = `How does this facility usually treat ordispose of infectious waste_comment`, infectious_waste_treatment_funct = `Is the infectious waste treatment within the facility currently functional`, hcf_waste_treatment_general = `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste`, hcf_waste_treatment_general_other = `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste _other`, cleaning_protocols_avl = `Are cleaning protocols available`, cleaning_staff_avl = `Are adequate cleaning staff available`, cleaning_staff_trained = `Have all staff responsible for cleaning received training`, cleaning_recs = `Is there a record of cleaning visible and signed by the cleaners each day`) |> 
+  rename(hcf_name = `Health Care Facility name`, hcf_level = `Level of health care facility`, hcf_ownership = `Facility ownership`, outpatients = `Number of outpatients`, OPD_units = `OPD units`, inpatients = `Number of inpatients`, inpatients_units = `inpatients unit`, ws_main = `Main water supply`, ws_main_avl = `Water availability from main supply at time of survey`, toilet_types = `Common types of toilets for patients`, toilet_usable = `At least one toilet usable at survey`, hyg_station_funct = `Functioning hygiene stations at least 5 m from toilet`, toilet_sep_staff = `Separate toilets for staff`, urinals = `Urinals at the facility`, mhm_disposal = `What is the disposal mechanism for menstrual hygiene waste at the healthcare facility`, mhm_waste_responsible = `Who is responsible for disposing of menstrual hygiene waste?`, toilet_waterpoint_inside = `Is there a water point inside?`, hcf_waste_mgt_responsible = `Is a trained person responsible for the management of health care waste in the health care facility`, hcf_waste_SOP = `Is a protocol or Standard Operating Procedure for safe management of health care waste clearly visible and legible`, hcf_waste_segregated = `Is waste correctly segregated into at least three labelled bins in the CONSULTATION area`, infectious_waste_storage = `Is all infectious waste stored in a protected area before treatment for no longer than the default and safe time`, infectious_waste_treatment = `How does this facility usually treat or dispose of infectious waste`, infectious_waste_treatment_comment = `How does this facility usually treat ordispose of infectious waste_comment`, infectious_waste_treatment_funct = `Is the infectious waste treatment within the facility currently functional`, hcf_waste_treatment_general = `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste`, hcf_waste_treatment_general_other = `How does this facility usually treat or dispose of GENERAL waste non-infectious and non-sharps waste _other`, cleaning_protocols_avl = `Are cleaning protocols available`, cleaning_staff_avl = `Are adequate cleaning staff available`, cleaning_staff_trained = `Have all staff responsible for cleaning received training`, cleaning_recs = `Is there a record of cleaning visible and signed by the cleaners each day`) |> 
   
-  filter(!(is.na(WS_main_avl) & is.na(hyg_station_funct) & is.na(toilet_usable) & is.na(urinals) & is.na(mhm_disposal)))
+  filter(!(is.na(ws_main_avl) & is.na(hyg_station_funct) & is.na(toilet_usable) & is.na(urinals) & is.na(mhm_disposal)))
 ```
 
 ```{r}
@@ -63,12 +64,12 @@ processed_data <- processed_data |>
       is.na(inpatients) & inpatients_units == "per day", NA, inpatients_units
       ),
     
-    water_supply_main_avl = if_else(
-      is.na(water_supply_main_avl), "No water source", water_supply_main_avl
+    ws_main_avl = if_else(
+      is.na(ws_main_avl), "No water source", ws_main_avl
     ),
     
     toilet_usable = if_else(
-      toilet_type_patients == "No toilet/latrine" & toilet_usable == "No", NA, toilet_usable
+      toilet_types == "No toilet/latrine" & toilet_usable == "No", NA, toilet_usable
     ),
     
     urinals = if_else(
@@ -76,7 +77,7 @@ processed_data <- processed_data |>
     ),
     
     toilet_waterpoint_inside = if_else(
-      toilet_type_patients == "No toilet/latrine" & toilet_waterpoint_inside == "Yes", "No", toilet_waterpoint_inside
+      toilet_types == "No toilet/latrine" & toilet_waterpoint_inside == "Yes", "No", toilet_waterpoint_inside
     ),
     
     hcf_waste_segregated = if_else(
