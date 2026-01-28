@@ -1,15 +1,19 @@
-```         
- 
-```
-
 ---
 title: "My project"
-author: "Seyram A. Asimah"
-format: html
-toc: true
+author: 
+  name: "Seyram A. Asimah"
+  email: setramasimah@gmail.com
+  
+date: today
+format: 
+  html: 
+    toc: true
+    code-fold: true
 execute: 
+  echo: true
   warning: false
-
+bibliography: citations.bib
+csl: apa.csl
 editor: visual
 ---
 
@@ -17,7 +21,13 @@ editor: visual
 
 ## Project description
 
-The COVID-19 pandemic highlighted the importance of water, sanitation, hygiene, and infection prevention and control (WASH/IPC) infrastructure in health care facilities, particularly in resource-constrained settings. In Ghana, primary health care facilities serve as the first point of contact for most patients and play a critical role in preventing the spread of infectious diseases during outbreaks. As part of a project to improve WASH access in the Upper East Region, a facility-level assessment was conducted in May 2022 across 39 primary health care facilities in four municipalities. The assessment generated data on water supply, sanitation, hygiene facilities, and health care waste management to inform pandemic preparedness planning.
+The COVID-19 pandemic highlighted the importance of water, sanitation, hygiene (WASH), and infection prevention and control (WASH/IPC) infrastructure in health care facilities, particularly in resource-constrained settings. The World Health Organization defines health care facilities as all formally recognized facilities that provide health services, including primary, secondary, and tertiary facilities, across public and private sectors, as well as temporary structures established for emergency contexts such as cholera treatment centers.
+
+In Ghana, primary health care (PHC) services are delivered through a tiered system of facilities comprising Community-Based Health Planning and Services (CHPS) compounds, health centers, and district hospitals. CHPS compounds represent the most basic, community-level PHC facilities and provide promotive, preventive, and basic curative care through both facility-based and home-based services. Health centers serve as an intermediate level of care and are responsible for planning, developing, monitoring and evaluating community-based service delivery. District hospitals provide more comprehensive health care services and work in collaboration with District Health Administrations and local government authorities to plan, supervise, monitor, and coordinate service delivery within their catchment areas.
+
+As the first point of contact for most patients, PHC facilities play a pivotal role in prevening the transmission of infectious diseases during public health emergencies. Adequate WASH/IPC infrastructure within these facilities is therefore essential for effective outbreak preparedness and response.
+
+In this context, a facility-level assessment was conducted in May 2022 as part of a project aimed at improving access to WASH services in the Upper East Region of Ghana. The assessment covered 39 primary health care facilities across four municipalities and collected data on water supply, sanitation, hygiene facilities, and health care waste management.
 
 # Methods
 
