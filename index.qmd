@@ -12,7 +12,7 @@ format:
 execute: 
   echo: true
   warning: false
-bibliography: citations.bib
+bibliography: references.bib
 csl: apa.csl
 editor: visual
 ---
@@ -21,11 +21,11 @@ editor: visual
 
 ## Project description
 
-The COVID-19 pandemic highlighted the importance of water, sanitation, hygiene (WASH), and infection prevention and control (WASH/IPC) infrastructure in health care facilities, particularly in resource-constrained settings. The World Health Organization defines health care facilities as all formally recognized facilities that provide health services, including primary, secondary, and tertiary facilities, across public and private sectors, as well as temporary structures established for emergency contexts such as cholera treatment centers.
+The COVID-19 pandemic highlighted the importance of water, sanitation, hygiene (WASH), and infection prevention and control (WASH/IPC) infrastructure in health care facilities, particularly in resource-constrained settings. The World Health Organization defines health care facilities as all formally recognized facilities that provide health services, including primary, secondary, and tertiary facilities, across public and private sectors, as well as temporary structures established for emergency contexts such as cholera treatment centers[@noauthor_wash_nodate].
 
-In Ghana, primary health care (PHC) services are delivered through a tiered system of facilities comprising Community-Based Health Planning and Services (CHPS) compounds, health centers, and district hospitals. CHPS compounds represent the most basic, community-level PHC facilities and provide promotive, preventive, and basic curative care through both facility-based and home-based services. Health centers serve as an intermediate level of care and are responsible for planning, developing, monitoring and evaluating community-based service delivery. District hospitals provide more comprehensive health care services and work in collaboration with District Health Administrations and local government authorities to plan, supervise, monitor, and coordinate service delivery within their catchment areas.
+In Ghana, primary health care (PHC) services are delivered through a tiered system of facilities comprising Community-Based Health Planning and Services (CHPS) compounds, health centers, and district hospitals. CHPS compounds represent the most basic, community-level PHC facilities and provide promotive, preventive, and basic curative care through both facility-based and home-based services. Health centers serve as an intermediate level of care and are responsible for planning, developing, monitoring and evaluating community-based service delivery. District hospitals provide more comprehensive health care services and work in collaboration with District Health Administrations and local government authorities to plan, supervise, monitor, and coordinate service delivery within their catchment areas[@macarayan2019facility].
 
-As the first point of contact for most patients, PHC facilities play a pivotal role in prevening the transmission of infectious diseases during public health emergencies. Adequate WASH/IPC infrastructure within these facilities is therefore essential for effective outbreak preparedness and response.
+As the first point of contact for most patients, PHC facilities play a pivotal role in prevening the transmission of infectious diseases during public health emergencies. According to @world2025essential Water, sanitation and hygiene (WASH) constitute one of the four fundamental pillars required for safe, climate-resilient, and environmentally sustainable health care facilities. Adequate WASH/IPC infrastructure within these facilities is therefore essential for effective outbreak preparedness and response. Despite this, in 2023, an estimated 1.1 billion people were served by health care facilities that lacked basic water services, 3 billion lacked basic sanitation services, 1.7 billion lacked basic hygiene services, and 2.8 billion lacked basic waste services in low- and lower-middle-income countries [@world2025essential].
 
 In this context, a facility-level assessment was conducted in May 2022 as part of a project aimed at improving access to WASH services in the Upper East Region of Ghana. The assessment covered 39 primary health care facilities across four municipalities and collected data on water supply, sanitation, hygiene facilities, and health care waste management.
 
@@ -98,11 +98,15 @@ write_csv(processed_data,
 
 # Results
 
-The analysis included data from 38 healthcare facilities, as one facility was excluded due to missing key variables. Facilities represented different levels of care and ownership types, providing a broad overview of service delivery contexts.
+The analysis includes data from 38 healthcare facilities, distributed across CHPS compounds, health centers, and district hospitals. One facility was excluded due to missing key variables. @tbl-facility-patient-load summarises patient load and WASH indicators by facility level. CHPS compounds, the smallest community-based facilities, accounted for 24 of the facilities, health centres accounted for 13, and district hospitals for one.
 
-Counts by facility-level, ownership, and availability of WASH-related infrastructure were examined to understand the distribution of service and infrastructure across the various healthcare facilities.
+Average daily outpatient visits were highest at the district hospital (\~ 110 per day), followed by health centres (\~ 35 per day) and CHPS compounds (\~ 15 per day) Inpatient admissions were low overall, but the district hospital had the highest patient loads (\~ 30 per day).
+
+Functioning toilets and access to water varied slightly by facility level. Among CHPS compounds, 64% had at least one functioning toilet, while 75% had water available from the main supply at the time of the survey. For health centres, 70% reported having at least one functioning toilet and 80% had water available. The district hospital reported the availability of both a functioning toilet and water at the time of assessment.
 
 ```{r}
+#| label: tbl-facility-patient-load
+#| tbl-cap: "Summary of patient load and WASH indicators by facility level"
 processed_data |> 
   count(hcf_level)
 
@@ -124,13 +128,15 @@ processed_data |>
 processed_data |> 
   group_by(hcf_level) |> 
   summarise(
+    facilities_num = n(),
     avg_daily_opd = round(mean(daily_outpatients, na.rm = TRUE), 0),
     avg_daily_inpt = round(mean(daily_inpatients, na.rm = TRUE),0),
     prop_toilet_usable = round(mean(toilet_usable == "Yes", na.rm = TRUE) * 100, 0),
     prop_water_avail = round(mean(ws_main_avl == "Yes", na.rm = TRUE) * 100, 0),
     .groups = "drop"
     ) |> 
-  rename("Facility Level" = hcf_level,
+  rename("Total number of facilities" = facilities_num,
+    "Facility Level" = hcf_level,
          "Average Daily Outpatients" = avg_daily_opd,
          "Average Daily Inpatients" = avg_daily_inpt,
          "Proportion of facilities with functioning toilets (%)" = prop_toilet_usable,
@@ -138,11 +144,11 @@ processed_data |>
       kable(caption = "Summary of patient load and WASH indicators by facility level")
 ```
 
-Water, Sanitation and Hygiene availability
+Basic Water, Sanitation and Hygiene availability
 
 An indicator of basic WASH access, defined as the simultaneous availability of water, usable toilets, and functioning hygiene stations was generated. Facilities were classified as having basic WASH access only when all three conditions were met.
 
-82% of facilities had access to basic water, sanitation and hygiene as shown in @tbl-basic-wash. Although 82% of facilities met the criteria for basic WASH, this estimate applies only to facilities with existing sanitation infrastructure and complete WASH data. A separate assessment of toilet availability as shown in @fig-functioning-toilets below shows that many facilities lacked any toilet or latrine.
+Overall, 82% of the assessed facilities met the criteria for basic WASH access as shown in @tbl-basic-wash. This estimate reflects facilities with complete WASH data and existing sanitation infrastructure and therefore does not capture gaps related to the absence of toilets in some facilities.
 
 ```{r}
 #| label: tbl-basic-wash
@@ -154,11 +160,12 @@ processed_data <- processed_data |> mutate(basic_wash = if_else(ws_main_avl == "
 
 processed_data |> 
   count(basic_wash) |> 
-  mutate(percent = round(n / sum(n) * 100, 0))
+  mutate(percent = round(n / sum(n) * 100, 0)) |> 
+  kable()
 
 ```
 
-Functionality of sanitation and hygiene infrastructure
+Functionality of sanitation infrastructure
 
 @fig-functioning-toilets illustrates the availability and functionality of toilets across facilities. Many facilities lacked any toilet or latrine, while fewer had non-functioning toilets. Among facilities with toilet infrastructure, functioning toilets were more common than non-functioning ones, indicating that the primary sanitation gap is the absence of toilets rather than functionality.
 
@@ -200,8 +207,13 @@ processed_data |>
 
 ```
 
-```{r}
+Availability of functioning hygiene stations across all facilities
 
+As shown in @fig-functioning-hyg, the majority of health care facilities did not have functioning hygiene stations at the time of the assessment. A functioning hygiene station was defined as one with both water and soap available.
+
+```{r}
+#| label: fig-functioning-hyg
+#| fig-cap: "Functioning hygiene stations"
 library(ggplot2)
 
 processed_data |> 
@@ -212,17 +224,34 @@ ggplot(aes(x = hyg_station_funct)) +
     x = "Hygiene station functioning",
     y = "Number of facilities"
   )
+  
 
 ```
 
+Health Care Waste Management
+
 ```{r}
 
-ggplot(processed_data, aes(x = daily_outpatients)) + geom_histogram(bins = 10, fill = "darkred") + 
-  labs(
-    title = "Distribution of daily outpatient visits",
-    x = "Daily outpatients",
-    y = "Number of facilities"
+processed_data |> 
+  mutate(hcf_waste_segregated_clean = if_else(
+    hcf_waste_segregated == "Yes",
+    "Yes", "No"))
+
+
+toilet_usable = if_else(
+      toilet_types == "No toilet/latrine" & toilet_usable == "No", NA, toilet_usable
+    ),
+
+processed_data |> 
+  group_by(hcf_level, hcf_waste_mgt_responsible) |> 
+  summarise(
+    number_facilities = n(),
+    prop_segregated = round(mean(hcf_waste_segregated == "Yes", na.rm = .groups = "drop")) |> 
+      kable(caption = "Comparison of health care waste management practices by presence of a waste management officer")
   )
+  count(hcf_waste_segregated, hcf_waste_SOP, hcf_waste_treatment_general) |> 
+  mutate(percent = round(n/sum(n) * 100, 0)) |> 
+  kable(caption = "Comparison of health care waste management practices by presence of a waste management officer")
 ```
 
 # Conclusions
