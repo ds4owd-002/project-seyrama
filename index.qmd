@@ -1,5 +1,5 @@
 ---
-title: "My project"
+title: "Status of Water, Sanitation and Hygiene in Health Care Facilities across Four Municipalities in Upper East Region, Ghana"
 author: 
   name: "Seyram A. Asimah"
   email: setramasimah@gmail.com
@@ -25,7 +25,7 @@ The COVID-19 pandemic highlighted the importance of water, sanitation, hygiene (
 
 In Ghana, primary health care (PHC) services are delivered through a tiered system of facilities comprising Community-Based Health Planning and Services (CHPS) compounds, health centers, and district hospitals. CHPS compounds represent the most basic, community-level PHC facilities and provide promotive, preventive, and basic curative care through both facility-based and home-based services. Health centers serve as an intermediate level of care and are responsible for planning, developing, monitoring and evaluating community-based service delivery. District hospitals provide more comprehensive health care services and work in collaboration with District Health Administrations and local government authorities to plan, supervise, monitor, and coordinate service delivery within their catchment areas[@macarayan2019facility].
 
-As the first point of contact for most patients, PHC facilities play a pivotal role in prevening the transmission of infectious diseases during public health emergencies. According to @world2025essential Water, sanitation and hygiene (WASH) constitute one of the four fundamental pillars required for safe, climate-resilient, and environmentally sustainable health care facilities. Adequate WASH/IPC infrastructure within these facilities is therefore essential for effective outbreak preparedness and response. Despite this, in 2023, an estimated 1.1 billion people were served by health care facilities that lacked basic water services, 3 billion lacked basic sanitation services, 1.7 billion lacked basic hygiene services, and 2.8 billion lacked basic waste services in low- and lower-middle-income countries [@world2025essential].
+As the first point of contact for most patients, PHC facilities play a pivotal role in preventing the transmission of infectious diseases during public health emergencies. According to @world2025essential Water, sanitation and hygiene (WASH) constitute one of the four fundamental pillars required for safe, climate-resilient, and environmentally sustainable health care facilities. Adequate WASH/IPC infrastructure within these facilities is therefore essential for effective outbreak preparedness and response. Despite this, in 2023, an estimated 1.1 billion people were served by health care facilities that lacked basic water services, 3 billion lacked basic sanitation services, 1.7 billion lacked basic hygiene services, and 2.8 billion lacked basic waste services in low- and lower-middle-income countries [@world2025essential].
 
 In this context, a facility-level assessment was conducted in May 2022 as part of a project aimed at improving access to WASH services in the Upper East Region of Ghana. The assessment covered 39 primary health care facilities across four municipalities and collected data on water supply, sanitation, hygiene facilities, and health care waste management.
 
@@ -73,10 +73,6 @@ processed_data <- processed_data |>
     
     toilet_waterpoint_inside = if_else(
       toilet_types == "No toilet/latrine" & toilet_waterpoint_inside == "Yes", "No", toilet_waterpoint_inside
-    ),
-    
-    hcf_waste_segregated = if_else(
-      is.na(hcf_waste_segregated), "No, bins are not present", hcf_waste_segregated
     ),
     
     daily_outpatients = if_else(
@@ -230,30 +226,26 @@ ggplot(aes(x = hyg_station_funct)) +
 
 Health Care Waste Management
 
+Most CHPS facilities (92%) did not have a dedicated staff appointed for health care facility waste management, while only 8% had a trained officer. Similarly, 77% of Health Centres lacked a dedicated waste management staff, with only 23% having one. In contrast, the District Hospital had a staff assigned to health care waste management.
+
 ```{r}
 
-processed_data |> 
-  mutate(hcf_waste_segregated_clean = if_else(
-    hcf_waste_segregated == "Yes",
-    "Yes", "No"))
-
-
-toilet_usable = if_else(
-      toilet_types == "No toilet/latrine" & toilet_usable == "No", NA, toilet_usable
-    ),
-
-processed_data |> 
-  group_by(hcf_level, hcf_waste_mgt_responsible) |> 
-  summarise(
-    number_facilities = n(),
-    prop_segregated = round(mean(hcf_waste_segregated == "Yes", na.rm = .groups = "drop")) |> 
-      kable(caption = "Comparison of health care waste management practices by presence of a waste management officer")
-  )
-  count(hcf_waste_segregated, hcf_waste_SOP, hcf_waste_treatment_general) |> 
-  mutate(percent = round(n/sum(n) * 100, 0)) |> 
-  kable(caption = "Comparison of health care waste management practices by presence of a waste management officer")
+hcf_waste_management <- processed_data |> 
+  count(hcf_level, hcf_waste_mgt_responsible)  |>
+  group_by(hcf_level)  |>                       
+  mutate(percent = round(n / sum(n) * 100, 0))
 ```
 
 # Conclusions
+
+-   The analysis covered 38 out of the 39 assessed facilities. This included 24 CHPS compounds, 13 Health Centres and one District Hospital.
+
+-   Daily outpatients highest at the district hospital (110), and lowest at the CHPS (15).
+
+-   Basic WASH access was present in 82% of facilities.
+
+-   Sanitation and hygiene gaps are mainly due to the absence of facilities, not their functionality.
+
+-   Availability of staff dedicated to waste management was limited. 92% of CHPS and 77% of health centres had no dedicated staff.
 
 # References

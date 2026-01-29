@@ -1,6 +1,31 @@
-variable_name,description
-water_source_type,"Main type of water source (e.g., piped supply, borehole, hand pump, surface water)"
-water_functional,Whether the water source is functioning at the time of visit (yes/no)
-hand_hygiene_points,Number of functional hand hygiene stations available in the facility
-waste_management_system,"Whether the facility has a functional system for segregating, treating, and disposing of health care waste"
-infection_prevention_score,Composite score measuring avaialability of IPC materials and procedures.
+Variable Name,Description
+hcf_name,Name of the healthcare facility
+hcf_level,"Level of the healthcare facility (CHPS, Health Centre, District Hospital)"
+hcf_ownership,"Ownership of the facility (Public, Private, Faith-based, etc.)"
+outpatients,Number of outpatients recorded at the facility
+OPD_units,"Time unit of outpatient count (per day, per week)"
+inpatients,Number of inpatients recorded at the facility
+inpatients_units,"Time unit of inpatient count (per day, per week)"
+ws_main,Main water supply type at the facility
+ws_main_avl,Water availability from main supply at the time of survey (Yes/No)
+toilet_types,Common types of toilets available for patients
+toilet_usable,Indicator if at least one toilet was usable at the time of survey (Yes/No)
+hyg_station_funct,Indicator if functioning hygiene stations (water + soap) were available at least 5m from toilets (Yes/No)
+toilet_sep_staff,Whether there are separate toilets for staff (Yes/No)
+urinals,Presence of urinals at the facility (Yes/No)
+mhm_disposal,Disposal mechanism for menstrual hygiene waste at the facility
+mhm_waste_responsible,Person responsible for disposing of menstrual hygiene waste
+toilet_waterpoint_inside,Whether a water point is available inside the toilet (Yes/No)
+hcf_waste_mgt_responsible,Whether a trained person is responsible for healthcare waste management at the facility
+hcf_waste_SOP,Whether a protocol or SOP for safe waste management is clearly visible and legible
+hcf_waste_segregated,Whether waste is segregated into at least three labelled bins in consultation areas
+infectious_waste_storage,Whether infectious waste is stored safely before treatment
+infectious_waste_treatment,Usual method for treatment or disposal of infectious waste
+infectious_waste_treatment_comment,Comments on infectious waste treatment/disposal practices
+infectious_waste_treatment_funct,Whether the infectious waste treatment facility is currently functional (Yes/No)
+hcf_waste_treatment_general,"Usual method for treatment or disposal of general non-infectious, non-sharps waste"
+hcf_waste_treatment_general_other,Other disposal methods for general waste not covered by standard responses
+cleaning_protocols_avl,Availability of cleaning protocols at the facility (Yes/No)
+cleaning_staff_avl,Availability and adequacy of cleaning staff (Yes/No/Partial)
+cleaning_staff_trained,Whether all cleaning staff received training (Yes/No)
+cleaning_recs,Whether there is a visible and signed record of daily cleaning
