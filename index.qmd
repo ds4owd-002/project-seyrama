@@ -1,5 +1,5 @@
 ---
-title: "Status of Water, Sanitation and Hygiene in Health Care Facilities across Four Municipalities in Upper East Region, Ghana"
+title: "My Project"
 author: 
   name: "Seyram A. Asimah"
   email: setramasimah@gmail.com
@@ -159,29 +159,6 @@ processed_data |>
   mutate(percent = round(n / sum(n) * 100, 0)) |> 
   kable()
 
-```
-
-Functionality of sanitation infrastructure
-
-@fig-functioning-toilets illustrates the availability and functionality of toilets across facilities. Many facilities lacked any toilet or latrine, while fewer had non-functioning toilets. Among facilities with toilet infrastructure, functioning toilets were more common than non-functioning ones, indicating that the primary sanitation gap is the absence of toilets rather than functionality.
-
-```{r}
-library(ggplot2)
-#| label: fig-functioning-toilets
-#| fig-cap: "Functioning toilets across facilities" 
-processed_data |> 
-  mutate(toilet_status_plot = case_when(
-    is.na(toilet_usable) ~ "No toilet/latrine",
-    toilet_usable == "Yes" ~ "Functioning toilet",
-    toilet_usable == "No" ~ "Non-functioning toilet")) |> 
-
-  ggplot(aes(x = toilet_status_plot)) +
-  geom_bar(fill = "darkgreen") + 
-  labs(
-    title = "Availability and functionality of toilets across facilities",
-    x = "Toilet usable",
-    y = "Number of facilities"
-  )
 ```
 
 Availability and functionality of toilets across all facility levels
