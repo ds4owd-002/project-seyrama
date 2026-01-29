@@ -211,6 +211,9 @@ hcf_waste_management <- processed_data |>
   count(hcf_level, hcf_waste_mgt_responsible)  |>
   group_by(hcf_level)  |>                       
   mutate(percent = round(n / sum(n) * 100, 0))
+
+processed_data |> 
+  mutate(infectious_waste_storage)
 ```
 
 # Conclusions
