@@ -1,5 +1,5 @@
 ---
-title: "My Project"
+title: "Status of WASH in Health Care Facilities across Four Municipalities, Upper East Region, Ghana"
 author: 
   name: "Seyram A. Asimah"
   email: setramasimah@gmail.com
@@ -96,7 +96,7 @@ write_csv(processed_data,
 
 The analysis includes data from 38 healthcare facilities, distributed across CHPS compounds, health centers, and district hospitals. One facility was excluded due to missing key variables. @tbl-facility-patient-load summarises patient load and WASH indicators by facility level. CHPS compounds, the smallest community-based facilities, accounted for 24 of the facilities, health centres accounted for 13, and district hospitals for one.
 
-Average daily outpatient visits were highest at the district hospital (\~ 110 per day), followed by health centres (\~ 35 per day) and CHPS compounds (\~ 15 per day) Inpatient admissions were low overall, but the district hospital had the highest patient loads (\~ 30 per day).
+Average daily outpatient visits were highest at the district hospital (110 per day), followed by health centres (35 per day) and CHPS compounds (15 per day) Inpatient admissions were low overall, but the district hospital had the highest patient loads (\~ 30 per day).
 
 Functioning toilets and access to water varied slightly by facility level. Among CHPS compounds, 64% had at least one functioning toilet, while 75% had water available from the main supply at the time of the survey. For health centres, 70% reported having at least one functioning toilet and 80% had water available. The district hospital reported the availability of both a functioning toilet and water at the time of assessment.
 
@@ -140,7 +140,7 @@ processed_data |>
       kable(caption = "Summary of patient load and WASH indicators by facility level")
 ```
 
-Basic Water, Sanitation and Hygiene availability
+## Basic Water, Sanitation and Hygiene availability
 
 An indicator of basic WASH access, defined as the simultaneous availability of water, usable toilets, and functioning hygiene stations was generated. Facilities were classified as having basic WASH access only when all three conditions were met.
 
@@ -161,7 +161,7 @@ processed_data |>
 
 ```
 
-Availability and functionality of toilets across all facility levels
+## Availability and functionality of toilets across all facility levels
 
 @fig-functioning-toilets-across-hcfs-levels shows the distribution of toilets across healthcare facilities, dissagregated by facility level. Facilities are grouped by their reported toilet status: functioning (Yes), non-functioning (No), or no toilet/latrine (NA). The plot shows that most facilities with toilets had functioning units while non-functioning toilets were relatively uncommon. However, among lower-level facilities, several facilities did not have any toilet infrastructure, which is represented by the NA category.
 
@@ -180,7 +180,7 @@ processed_data |>
 
 ```
 
-Availability of functioning hygiene stations across all facilities
+## Availability of functioning hygiene stations across all facilities
 
 As shown in @fig-functioning-hyg, the majority of health care facilities did not have functioning hygiene stations at the time of the assessment. A functioning hygiene station was defined as one with both water and soap available.
 
@@ -201,7 +201,7 @@ ggplot(aes(x = hyg_station_funct)) +
 
 ```
 
-Health Care Waste Management
+## Health Care Waste Management
 
 Most CHPS facilities (92%) did not have a dedicated staff appointed for health care facility waste management, while only 8% had a trained officer. Similarly, 77% of Health Centres lacked a dedicated waste management staff, with only 23% having one. In contrast, the District Hospital had a staff assigned to health care waste management.
 
@@ -217,7 +217,7 @@ hcf_waste_management <- processed_data |>
 
 -   The analysis covered 38 out of the 39 assessed facilities. This included 24 CHPS compounds, 13 Health Centres and one District Hospital.
 
--   Daily outpatients highest at the district hospital (110), and lowest at the CHPS (15).
+-   Daily outpatient numbers were highest at the district hospital (110), and lowest at the CHPS (15).
 
 -   Basic WASH access was present in 82% of facilities.
 
