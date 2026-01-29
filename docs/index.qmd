@@ -104,7 +104,7 @@ Functioning toilets and access to water varied slightly by facility level. Among
 #| label: tbl-facility-patient-load
 #| tbl-cap: "Summary of patient load and WASH indicators by facility level"
 processed_data |> 
-  count(hcf_level)
+  count(hcf_level) |> 
 
 processed_data |> 
   count(hcf_ownership)
@@ -210,10 +210,39 @@ Most CHPS facilities (92%) did not have a dedicated staff appointed for health c
 hcf_waste_management <- processed_data |> 
   count(hcf_level, hcf_waste_mgt_responsible)  |>
   group_by(hcf_level)  |>                       
-  mutate(percent = round(n / sum(n) * 100, 0))
+  mutate(percent = round(n / sum(n) * 100, 0)) |> 
+  rename("Health Care Facility Type" = hcf_level,
+         "Waste Management Staff Status" = hcf_waste_mgt_responsible,
+         "Number of Facilities" = n,
+         "Proportion (%)" = percent)
 
-processed_data |> 
-  mutate(infectious_waste_storage)
+hcf_waste_management |> 
+  kable(caption = "Health Care Waste Management Staff")
+
+```
+
+## Infectious Waste Treatment
+
+Functionality of infectious waste treatment was assessed among facilities with treatment infrastructure. See @tbl-infectious-waste. Among CHPS compounds, 29% had functional treatment, 42% had non-functional treatment, and 29% did not have any treatment facilities. Health Centres reported 46% functional, 38% non-functional, and 15% without treatment facilities. The District Hospital had fully functional treatment. Overall, functional infectious waste treatment was more common in higher-level facilities, while many lower-level facilities lacked treatment infrastructure entirely.
+
+```{r}
+#| label: tbl-infectious-waste
+#| tbl-cap: Functionality of Infectious Waste Treatment Facilities
+
+
+infectious_waste_treatment_table <- processed_data |> 
+  count(hcf_level, infectious_waste_treatment_funct) |> 
+  group_by(hcf_level) |> 
+  mutate(percent = round(n / sum(n) * 100, 0)) |> 
+  rename(
+    "Health Care Facility Type" = hcf_level,
+    "Infectious Waste Treatment Functionality" = infectious_waste_treatment_funct,
+    "Number of Facilities" = n,
+    "Proportion (%)" = percent
+  )
+
+  kable(infectious_waste_treatment_table,
+    caption = "Infectious Waste Treatment Practices")
 ```
 
 # Conclusions
@@ -227,5 +256,7 @@ processed_data |>
 -   Sanitation and hygiene gaps are mainly due to the absence of facilities, not their functionality.
 
 -   Availability of staff dedicated to waste management was limited. 92% of CHPS and 77% of health centres had no dedicated staff.
+
+-   Functional infectious waste treatment was limited at lower-level facilities, with only 29% of CHPS and 46% of Health Centres having working systems. The District Hospital was fully functional.
 
 # References

@@ -118,6 +118,7 @@ div.csl-indent {
   <li><a href="#availability-and-functionality-of-toilets-across-all-facility-levels" id="toc-availability-and-functionality-of-toilets-across-all-facility-levels" class="nav-link" data-scroll-target="#availability-and-functionality-of-toilets-across-all-facility-levels">Availability and functionality of toilets across all facility levels</a></li>
   <li><a href="#availability-of-functioning-hygiene-stations-across-all-facilities" id="toc-availability-of-functioning-hygiene-stations-across-all-facilities" class="nav-link" data-scroll-target="#availability-of-functioning-hygiene-stations-across-all-facilities">Availability of functioning hygiene stations across all facilities</a></li>
   <li><a href="#health-care-waste-management" id="toc-health-care-waste-management" class="nav-link" data-scroll-target="#health-care-waste-management">Health Care Waste Management</a></li>
+  <li><a href="#infectious-waste-treatment" id="toc-infectious-waste-treatment" class="nav-link" data-scroll-target="#infectious-waste-treatment">Infectious Waste Treatment</a></li>
   </ul></li>
   <li><a href="#conclusions" id="toc-conclusions" class="nav-link" data-scroll-target="#conclusions">Conclusions</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
@@ -521,32 +522,165 @@ Figure&nbsp;2: Functioning hygiene stations
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>hcf_waste_management <span class="ot">&lt;-</span> processed_data <span class="sc">|&gt;</span> </span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(hcf_level, hcf_waste_mgt_responsible)  <span class="sc">|&gt;</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(hcf_level)  <span class="sc">|&gt;</span>                       </span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">0</span>))</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>processed_data <span class="sc">|&gt;</span> </span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(infectious_waste_storage)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">"Health Care Facility Type"</span> <span class="ot">=</span> hcf_level,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Waste Management Staff Status"</span> <span class="ot">=</span> hcf_waste_mgt_responsible,</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Number of Facilities"</span> <span class="ot">=</span> n,</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>         <span class="st">"Proportion (%)"</span> <span class="ot">=</span> percent)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>hcf_waste_management <span class="sc">|&gt;</span> </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Health Care Waste Management Staff"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 38 × 33
-   hcf_name             hcf_level hcf_ownership outpatients OPD_units inpatients
-   &lt;chr&gt;                &lt;chr&gt;     &lt;chr&gt;               &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt;
- 1 Namoo health centre  Health C… Government             30 per day            0
- 2 Balungo CHPS         CHPS Cen… Government              5 per day            0
- 3 Anafobisi Health Ce… Health C… Government             30 per day            0
- 4 Wagliga CHPS         CHPS Cen… Government             25 per day            0
- 5 Dua Health Centre    Health C… Government             20 per day            0
- 6 Lungo CHPS           CHPS Cen… Government              8 per day            0
- 7 Vea Health Facility  Health C… Government             50 per day            3
- 8 Nayagnia CHPS        CHPS Cen… Government             25 per day            2
- 9 Kongwania CHPS Comp… CHPS Cen… Government             10 per day            0
-10 Kadania CHPS         CHPS Cen… Government             10 per day            0
-# ℹ 28 more rows
-# ℹ 27 more variables: inpatients_units &lt;chr&gt;, ws_main &lt;chr&gt;,
-#   ws_main_avl &lt;chr&gt;, toilet_types &lt;chr&gt;, toilet_usable &lt;chr&gt;,
-#   hyg_station_funct &lt;chr&gt;, toilet_sep_staff &lt;chr&gt;, urinals &lt;chr&gt;,
-#   mhm_disposal &lt;chr&gt;, mhm_waste_responsible &lt;chr&gt;,
-#   toilet_waterpoint_inside &lt;chr&gt;, hcf_waste_mgt_responsible &lt;chr&gt;,
-#   hcf_waste_SOP &lt;chr&gt;, hcf_waste_segregated &lt;chr&gt;, …</code></pre>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Health Care Waste Management Staff</caption>
+<colgroup>
+<col style="width: 26%">
+<col style="width: 36%">
+<col style="width: 21%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Health Care Facility Type</th>
+<th style="text-align: left;">Waste Management Staff Status</th>
+<th style="text-align: right;">Number of Facilities</th>
+<th style="text-align: right;">Proportion (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">CHPS Centre</td>
+<td style="text-align: left;">No appointed</td>
+<td style="text-align: right;">22</td>
+<td style="text-align: right;">92</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHPS Centre</td>
+<td style="text-align: left;">Yes, present and adequately trained</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">8</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">District Hospital</td>
+<td style="text-align: left;">Yes, present and adequately trained</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Health Centre</td>
+<td style="text-align: left;">Appointed but not trained</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">15</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Health Centre</td>
+<td style="text-align: left;">No appointed</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">77</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Health Centre</td>
+<td style="text-align: left;">Yes, present and adequately trained</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+<section id="infectious-waste-treatment" class="level2">
+<h2 class="anchored" data-anchor-id="infectious-waste-treatment">Infectious Waste Treatment</h2>
+<p>Functionality of infectious waste treatment was assessed among facilities with treatment infrastructure. See <a href="#tbl-infectious-waste" class="quarto-xref">Table&nbsp;3</a>. Among CHPS compounds, 29% had functional treatment, 42% had non-functional treatment, and 29% did not have any treatment facilities. Health Centres reported 46% functional, 38% non-functional, and 15% without treatment facilities. The District Hospital had fully functional treatment. Overall, functional infectious waste treatment was more common in higher-level facilities, while many lower-level facilities lacked treatment infrastructure entirely.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>infectious_waste_treatment_table <span class="ot">&lt;-</span> processed_data <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(hcf_level, infectious_waste_treatment_funct) <span class="sc">|&gt;</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(hcf_level) <span class="sc">|&gt;</span> </span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> <span class="fu">round</span>(n <span class="sc">/</span> <span class="fu">sum</span>(n) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">0</span>)) <span class="sc">|&gt;</span> </span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Health Care Facility Type"</span> <span class="ot">=</span> hcf_level,</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Infectious Waste Treatment Functionality"</span> <span class="ot">=</span> infectious_waste_treatment_funct,</span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Number of Facilities"</span> <span class="ot">=</span> n,</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Proportion (%)"</span> <span class="ot">=</span> percent</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>(infectious_waste_treatment_table,</span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">caption =</span> <span class="st">"Infectious Waste Treatment Practices"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="tbl-infectious-waste" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-infectious-waste-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: Functionality of Infectious Waste Treatment Facilities
+</figcaption>
+<div aria-describedby="tbl-infectious-waste-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
+<caption>Infectious Waste Treatment Practices</caption>
+<colgroup>
+<col style="width: 25%">
+<col style="width: 39%">
+<col style="width: 20%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Health Care Facility Type</th>
+<th style="text-align: left;">Infectious Waste Treatment Functionality</th>
+<th style="text-align: right;">Number of Facilities</th>
+<th style="text-align: right;">Proportion (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">CHPS Centre</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">10</td>
+<td style="text-align: right;">42</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">CHPS Centre</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">29</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">CHPS Centre</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">7</td>
+<td style="text-align: right;">29</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">District Hospital</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">100</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Health Centre</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">38</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Health Centre</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">46</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Health Centre</td>
+<td style="text-align: left;">NA</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">15</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
 </div>
 </div>
 </section>
@@ -559,6 +693,7 @@ Figure&nbsp;2: Functioning hygiene stations
 <li><p>Basic WASH access was present in 82% of facilities.</p></li>
 <li><p>Sanitation and hygiene gaps are mainly due to the absence of facilities, not their functionality.</p></li>
 <li><p>Availability of staff dedicated to waste management was limited. 92% of CHPS and 77% of health centres had no dedicated staff.</p></li>
+<li><p>Functional infectious waste treatment was limited at lower-level facilities, with only 29% of CHPS and 46% of Health Centres having working systems. The District Hospital was fully functional.</p></li>
 </ul>
 </section>
 <section id="references" class="level1 unnumbered">
