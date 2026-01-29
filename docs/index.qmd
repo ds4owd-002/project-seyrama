@@ -103,23 +103,6 @@ Functioning toilets and access to water varied slightly by facility level. Among
 ```{r}
 #| label: tbl-facility-patient-load
 #| tbl-cap: "Summary of patient load and WASH indicators by facility level"
-processed_data |> 
-  count(hcf_level) |> 
-
-processed_data |> 
-  count(hcf_ownership)
-
-processed_data |> 
-  count(ws_main_avl)
-
-processed_data |> 
-  count(toilet_usable)
-
-processed_data |> 
-  count(hyg_station_funct)
-
-processed_data |> 
-  count(urinals)
 
 processed_data |> 
   group_by(hcf_level) |> 
