@@ -179,7 +179,7 @@ ggplot(aes(x = hyg_station_funct)) +
     title = "Functioning hygiene stations",
     x = "Hygiene station functioning",
     y = "Number of facilities"
-  )
+  ) + coord_flip()
   
 
 ```
